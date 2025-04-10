@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/skript/game.js" defer></script>
+</head>
+<body>
+    
+    <!-- <div class="game-over hidden">
+        <h1>Game Over</h1>
+        <button class="restart">Restart</button>
+        <p class="score">Score: <span class="score-value"></span></p>
+        <p class="highscore">Highscore: <span class="highscore-value"></span></p>
+    </div>
+    
+    <div class="start-screen">
+        <h1>Welcome to the Game</h1>
+        <button class="start">Start Game</button>   
+        <p class="highscore">Highscore: <span class="highscore-value"></span></p>
+    </div> -->
+    
+    <div class="game">
+        <img src="" alt="current room" id="current-room">
+        <div class="room-info">
+            <h2 id="room-name">Room Name</h2>
+            <p id="room-description">Room Description</p>
+        </div>
+        <div>
+            <input type="button" value="upp" class="up" onclick="move(-1, 0)">
+            <input type="button" value="left" class="left" onclick="move(0, -1)">
+            <input type="button" value="right" class="right" onclick="move(0, 1)">
+            <input type="button" value="down" class="down" onclick="move(1, 0)">
+        </div>
+        <table class="gameboard" id="gameboard"></table>
+    </div>
+
+    <!-- later -->
+    <!-- <div class="settings hidden">
+        <h1>Settings</h1>
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty" name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <button class="save-settings">Save Settings</button>
+        <button class="back">Back</button>
+    </div> -->
+
+
+
+
+
+</body>
+</html>
