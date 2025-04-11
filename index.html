@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,52 +8,67 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/skript/game.js" defer></script>
 </head>
-<body>
-    
-    <!-- <div class="game-over hidden">
-        <h1>Game Over</h1>
-        <button class="restart">Restart</button>
-        <p class="score">Score: <span class="score-value"></span></p>
-        <p class="highscore">Highscore: <span class="highscore-value"></span></p>
-    </div>
-    
-    <div class="start-screen">
-        <h1>Welcome to the Game</h1>
-        <button class="start">Start Game</button>   
-        <p class="highscore">Highscore: <span class="highscore-value"></span></p>
-    </div> -->
-    
-    <div class="game">
-        <img src="" alt="current room" id="current-room">
-        <div class="room-info">
-            <h2 id="room-name">Room Name</h2>
-            <p id="room-description">Room Description</p>
-        </div>
-        <div>
-            <input type="button" value="upp" class="up" onclick="move(-1, 0)">
-            <input type="button" value="left" class="left" onclick="move(0, -1)">
-            <input type="button" value="right" class="right" onclick="move(0, 1)">
-            <input type="button" value="down" class="down" onclick="move(1, 0)">
-        </div>
-        <table class="gameboard" id="gameboard"></table>
-    </div>
 
-    <!-- later -->
-    <!-- <div class="settings hidden">
-        <h1>Settings</h1>
-        <label for="difficulty">Difficulty:</label>
-        <select id="difficulty" name="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <button class="save-settings">Save Settings</button>
-        <button class="back">Back</button>
-    </div> -->
+<body>
+
+
+    <header>
+        <h1>Treasure Hunter Game</h1>
+    </header>
+
+    <main>
+        <section class="game">
+            <div class="game-Background" id="game-Background">
+                <div class="element1" id="element1"></div>
+                <div class="element2" id="element2"></div>
+                <div class="element3" id="element3"></div>
+                <div class="chest" id="chest"></div>
+                <div class="zombie" id="zombie"></div>
+            </div>
+
+            <div class="room-info">
+                <h2 id="room-name">Room Name</h2>
+                <p id="room-description">Room Description</p>
+            </div>
+            <div class="game-container">
+                <table class="gameboard" id="gameboard"></table>
+
+                <div class="controls">
+                    <button class="north" id="north" onclick="move(-1, 0)">north</button>
+                    <button class="west" id="west" onclick="move(0, -1)">west</button>
+                    <button class="east" id="east" onclick="move(0, 1)">east</button>
+                    <button class="south" id="south" onclick="move(1, 0)">south</button>
+                </div>
+
+                <div class="compass-container">
+                    <button>Track zombie</button>
+                    <button>Track treasure</button>
+                    <div class="compass">
+                        <div class="north" id="north">N</div>
+                        <div class="west" id="west">W</div>
+                        <div class="east" id="east">E</div>
+                        <div class="south" id="south">S</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="instructions">
+            <h2>How to Play</h2>
+            <p>Move around the map using the directional buttons. Explore rooms, find treasures, and beware of zombies!
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Treasure Hunter. All rights reserved.</p>
+    </footer>
+
 
 
 
 
 
 </body>
+
 </html>
