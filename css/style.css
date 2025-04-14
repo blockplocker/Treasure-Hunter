@@ -227,6 +227,16 @@ button.disabled:hover {
     color: #7b3fe4;
     font-size: 1.2rem;
 }
+.compass-dot{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 .instructions {
     text-align: center;
