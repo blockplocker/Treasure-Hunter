@@ -27,45 +27,52 @@ var zombies = [
     "/images/Zombie3.png",
 ];
 
-
+var playerX, playerY, zombieX, zombieY, TresureX, TresureY;
+var CompassTarget;
 
 // Generate the 5x5 game board
 var gameRows = 5;
 var gameCols = 5;
+var gameBoardImgs;
+
+startGame(); // Initialize the game
+
+/**
+ * * Generates a 5x5 game board with random images for each room.
+ * * Each room contains a background, three elements, a chest, and a zombie.
+ */
 function generateGameBoard(){
-
-}
-var gameBoardImgs = [];
-
-for (var row = 0; row < gameRows; row++) {
-    var boardRow = [];
-    for (var col = 0; col < gameCols; col++) {
-        var room = [
-            randomItem(backgrounds), // background
-            randomItem(elements), // element1
-            randomItem(elements), // element2
-            randomItem(elements), // element3
-            '', // chest
-            '', // zombie
-        ];
-        boardRow.push(room);
+    gameBoardImgs = [];
+    
+    for (var row = 0; row < gameRows; row++) {
+        var boardRow = [];
+        for (var col = 0; col < gameCols; col++) {
+            var room = [
+                randomItem(backgrounds), // background
+                randomItem(elements), // element1
+                randomItem(elements), // element2
+                randomItem(elements), // element3
+                '', // chest
+                '', // zombie
+            ];
+            boardRow.push(room);
+        }
+        gameBoardImgs.push(boardRow);
     }
-    gameBoardImgs.push(boardRow);
+    CompassTarget = "zombie"; // The target for the compass
+    zombieX = Math.floor(Math.random() * 5);
+    zombieY = Math.floor(Math.random() * 5);
+    TresureX = Math.floor(Math.random() * 5);
+    TresureY = Math.floor(Math.random() * 5);
+    console.log("Zombie position:", zombieX, zombieY); // Debugging
+    console.log("Treasure position:", TresureX, TresureY); // Debugging
+    
+    gameBoardImgs[zombieX][zombieY][5] = randomItem(zombies); // Assign a random zombie to the zombie's position
+    gameBoardImgs[TresureX][TresureY][4] = randomItem(chests); // Assign a random chest to the treasure's position
+    
+    playerX = 4; // Starting position
+    playerY = 2; // Starting position
 }
-var CompassTarget = "zombie"; // The target for the compass
-var zombieX = Math.floor(Math.random() * 5);
-var zombieY = Math.floor(Math.random() * 5);
-
-var TresureX = Math.floor(Math.random() * 5);
-var TresureY = Math.floor(Math.random() * 5);
-console.log("Zombie position:", zombieX, zombieY); // Debugging
-console.log("Treasure position:", TresureX, TresureY); // Debugging
-
-gameBoardImgs[zombieX][zombieY][5] = randomItem(zombies); // Assign a random zombie to the zombie's position
-gameBoardImgs[TresureX][TresureY][4] = randomItem(chests); // Assign a random chest to the treasure's position
-
-var playerX = 4; // Starting position
-var playerY = 2; // Starting position
 
 // web api to enter fullscreen mode 
 const game = document.getElementById("game");
@@ -73,38 +80,48 @@ const gameImage = document.getElementById("game-Background");
 gameImage.addEventListener("click", () => {
     enterFullscreen(game);
 });
-startGame(); // Initialize the gameboard
+
+/** 
+ * * Starts the game by generating the game board, checking available directions,
+ * * loading room images, and drawing the gameboard and compass.
+ */
 function startGame() {
     console.log("Game started"); // Debugging
     
-    // zombieX = Math.floor(Math.random() * 5);
-    // zombieY = Math.floor(Math.random() * 5);
-    // TresureX = Math.floor(Math.random() * 5);
-    // TresureY = Math.floor(Math.random() * 5);
-    
-    
+    generateGameBoard(); // Generate the gameboard
     
     checkDirections(playerX, playerY); // Check available directions
     loadRoomImages(gameBoardImgs[playerX][playerY]); // Load the room images
     drawGameboard(); // Initial draw of the gameboard
-    if(CompassTarget == "zombie"){
-        drawcompass(zombieX, zombieY); // Initial draw of the compass
-    }
-    else if(CompassTarget == "treasure"){
-        drawcompass(TresureX, TresureY); // Initial draw of the compass
-    }
+    drawcompass(); // Initial draw of the compass
 }
-
-// random item from an array
+/**
+ * Returns a random item from an array.
+ * @param {Array} arr - The array to pick a random item from.
+ * @returns {*} A random element from the given array.
+ */
 function randomItem(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
-
+/**
+ * Changes the compass target to either "zombie" or "treasure".
+ * @param {string} target - The target to track ("zombie" or "treasure").
+ */
+function track(target){
+    CompassTarget = target; // Set the target for the compass
+    drawcompass(); // Draw the compass with the new target
+    // console.log("Tracking", target); // Debugging
+}
+/**
+ * Moves the player in the specified direction. 
+ * @param {number} row - The row offset (-1, 0, 1).
+ * @param {number} col - The column offset (-1, 0, 1).
+ */
 function move(row, col) {
-    // console.log(
-    //     "Moving player",
-    //     row === 1 ? "down" : row == -1 ? "up" : col == 1 ? "right" : "left"
-    // ); // Debugging
+    console.log(
+        "Moving player",
+        row === 1 ? "down" : row == -1 ? "up" : col == 1 ? "right" : "left"
+    ); // Debugging
     
     // Check if the move is valid
     if (
@@ -124,17 +141,16 @@ function move(row, col) {
     checkDirections(playerX, playerY); // Check available directions
     loadRoomImages(gameBoardImgs[playerX][playerY]); // Load the room images
     drawGameboard(); // Redraw the gameboard after each move
-
-    if(CompassTarget == "zombie"){
-        drawcompass(zombieX, zombieY); // Initial draw of the compass
-    }
-    else if(CompassTarget == "treasure"){
-        drawcompass(TresureX, TresureY); // Initial draw of the compass
-    }
+    drawcompass(); // Redraw the compass after each move
 }
+/**
+ * Checks the available directions based on the player's position.
+ * * Disables the buttons for directions that are out of bounds.
+ * @param {number} x - The player's current row position.
+ * @param {number} y - The player's current column position.
+ * */
 function checkDirections(x, y) {
-    // console.log("Checking directions"); // Debugging
-    
+    // console.log("Checking directions"); // Debugging    
     var north = document.getElementById("north");
     var south = document.getElementById("south");
     var west = document.getElementById("west");
@@ -168,6 +184,10 @@ function checkDirections(x, y) {
         east.classList.add("disabled");
     }
 }
+/**
+ * Loads the images for the current room based on the player's position.
+ * * @param {Array} arr - The array containing the images for the current room.
+ * */
 function loadRoomImages(arr) {
     var background = document.getElementById("game-Background");
     var element1 = document.getElementById("element1");
@@ -184,6 +204,12 @@ function loadRoomImages(arr) {
     zombie.style.backgroundImage = `url('${arr[5]}')`;
     
 }
+/**
+ * Draws the gameboard based on the current player's position.
+ * * Each cell is represented by a table cell (td) element.
+ * * The player's position is marked with a class "player" and an "X".
+ * * Empty cells are marked with a class "empty" and an "O".
+ * */
 function drawGameboard() {
     // console.log("Drawing gameboard"); // Debugging
     
@@ -211,10 +237,24 @@ function drawGameboard() {
         gameboard.appendChild(row); // Add the row to the gameboard
     }
 }
-function drawcompass(targetX, targetY) {
-    var compassDot = document.getElementById("compass-dot");
+/**
+ * Draws the compass dot based on the player's position and the target (zombie or treasure).
+ * * The compass dot is positioned relative to the target's position.
+ * * The compass dot is represented by a div element with the id "compass-dot".
+ * * */
+function drawcompass() {
     // console.log(playerX, playerY); // Debugging
     // console.log(targetX, targetY); // Debugging
+    var targetX, targetY;
+    if(CompassTarget == "zombie"){
+        targetX = zombieX; // Target zombieX
+        targetY = zombieY; // Target zombieY
+    }
+    else if(CompassTarget == "treasure"){
+        targetX = TresureX; // Target TresureX
+        targetY = TresureY; // Target TresureY
+    }
+    var compassDot = document.getElementById("compass-dot");
 
     // Reset compass position
     compassDot.style.left = "0";
@@ -241,7 +281,10 @@ function drawcompass(targetX, targetY) {
     }
     
 }
-// web api to enter fullscreen
+/** 
+ * * Enters fullscreen mode for the specified element.
+ * * @param {Element} element - The element to enter fullscreen mode.
+ * */
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
