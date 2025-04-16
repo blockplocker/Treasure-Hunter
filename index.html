@@ -11,7 +11,6 @@
 
 <body>
 
-
     <header>
         <h1>Treasure Hunter Game</h1>
     </header>
@@ -24,12 +23,19 @@
                 <div class="element3" id="element3"></div>
                 <div class="chest" id="chest"></div>
                 <div class="zombie" id="zombie"></div>
+                <button class="new-Game hidden" id="new-Game" onclick="newGame()">New Game</button>
             </div>
 
-            <div class="room-info">
-                <h2 id="room-name">Room Name</h2>
+            <div class="game-info">
+                <h2 id="room-text">Score: 0</h2>
                 <p id="room-description">Room Description</p>
+                <div class="hearts">
+                    <div class="heart" id="heart1"></div>
+                    <div class="heart" id="heart2"></div>
+                    <div class="heart" id="heart3"></div>
+                </div>
             </div>
+
             <div class="game-container">
                 <table class="gameboard" id="gameboard"></table>
 
@@ -43,14 +49,15 @@
                 <div class="compass-container">
                     <div class="compass">
                         <div class="compass-dot" id="compass-dot"></div>
-                        <div class="north" id="north">N</div>
-                        <div class="west" id="west">W</div>
-                        <div class="east" id="east">E</div>
-                        <div class="south" id="south">S</div>
+                        <div class="north">N</div>
+                        <div class="west">W</div>
+                        <div class="east">E</div>
+                        <div class="south">S</div>
                     </div>
-                    <button onclick="track('zombie')">Track zombie</button>
-                    <button onclick="track('treasure')">Track treasure</button>
+                    <button id="trackZombie" onclick="track('zombie')">Track zombie</button>
+                    <button id="trackTreasure" onclick="track('treasure')">Track treasure</button>
                 </div>
+
             </div>
         </section>
 
@@ -65,11 +72,5 @@
         <p>&copy; 2025 Treasure Hunter. All rights reserved.</p>
     </footer>
 
-
-
-
-
-
 </body>
-
 </html>

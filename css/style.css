@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     /* border: 1px dotted red; */
 }
 
@@ -25,8 +25,7 @@ header h1 {
 }
 
 main {
-    flex: 1;
-    padding: 2rem;
+    padding: 2rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +34,7 @@ main {
 
 .game {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -44,45 +43,49 @@ main {
 
 .game-Background {
     position: relative;
-    /* background-image: url("/images/Ruins.png"); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     aspect-ratio: 1 / 1;
-    width: 800px;
-    height: 800px;
-    min-width: 400px;
-    min-height: 400px;
+    max-width: 800px;
+    max-height: 800px;
+    width: 100%;
+    height: auto;
     border: 3px solid #fff;
     border-radius: 12px;
 }
 
-.game-Background div {
+.game-Background * {
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
-
+.new-Game {
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.hidden {
+    display: none;
+}
 .zombie {
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0);
     width: 80%;
     height: 80%;
-    /* background-image: url('/images/Zombie3.png');  */
 }
-
 .chest {
     top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 30%;
     height: 30%;
-    /* background-image: url('/images/Chest1.png'); */
 }
-
-.element1, .element2, .element3 {
+.element1,
+.element2,
+.element3 {
     width: 20%;
     height: 20%;
     transform: translate(-50%, -50%);
@@ -90,21 +93,15 @@ main {
 .element1 {
     top: 70%;
     left: 20%;
-    /* background-image: url('/images/Statue.png'); */
 }
-
 .element2 {
     top: 70%;
     left: 80%;
-    /* background-image: url('/images/Statue.png'); */
 }
-
 .element3 {
     top: 80%;
     left: 50%;
-    /* background-image: url('/images/Book.png'); */
 }
-
 .game-container {
     display: flex;
     flex-wrap: wrap;
@@ -112,14 +109,12 @@ main {
     justify-content: center;
     align-items: flex-start;
 }
-
 .gameboard {
     border-collapse: collapse;
     background-color: #1e1e1e;
     box-shadow: 0 0 15px rgba(123, 63, 228, 0.7);
     border: 2px solid #7b3fe4;
 }
-
 .gameboard td {
     width: 50px;
     height: 50px;
@@ -141,13 +136,54 @@ main {
     font-weight: bold;
     border: 2px solid #fff;
 }
+.hearts {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+.heart {
+    width: 33px;
+    height: 30px;
+    position: relative;
+}
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 26px;
+    left: 16px;
+    top: 0;
+    background-color: #ff4d4d;
+    border-radius: 16px 16px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+.heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+.heart.empty::before,
+.heart.empty::after {
+    background-color: #ccc;
+}
 
-.room-info h2 {
+.game-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: #5e239d;
+    padding: 1rem;
+    border-radius: 12px;
+}
+.game-info h2 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
-
-.controls, .compass {
+.controls,
+.compass {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -191,12 +227,12 @@ button {
     background-color: #602dbf;
 }
 button.disabled {
-    background-color: #FC523F; 
-    cursor: not-allowed; 
+    background-color: #fc523f;
+    cursor: not-allowed;
 }
 
 button.disabled:hover {
-    background-color: #FC523F; 
+    background-color: #fc523f;
 }
 
 .compass-container {
@@ -227,7 +263,7 @@ button.disabled:hover {
     color: #7b3fe4;
     font-size: 1.2rem;
 }
-.compass-dot{
+.compass-dot {
     position: absolute;
     width: 10px;
     height: 10px;
