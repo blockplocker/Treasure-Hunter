@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="/skript/game.js" defer></script>
+    <script src="/skript/quotes.js"></script>
 </head>
 
 <body>
@@ -23,12 +24,12 @@
                 <div class="element3" id="element3"></div>
                 <div class="chest" id="chest"></div>
                 <div class="zombie" id="zombie"></div>
-                <button class="new-Game hidden" id="new-Game" onclick="newGame()">New Game</button>
             </div>
-
+            
             <div class="game-info">
-                <h2 id="room-text">Score: 0</h2>
-                <p id="room-description">Room Description</p>
+                <h2 id="Score">Score: 0</h2>
+                <button class="hidden" id="new-Game" onclick="startGame()">New Game</button>
+                <p id="room-description"></p>
                 <div class="hearts">
                     <div class="heart" id="heart1"></div>
                     <div class="heart" id="heart2"></div>
@@ -54,7 +55,7 @@
                         <div class="east">E</div>
                         <div class="south">S</div>
                     </div>
-                    <button id="trackZombie" onclick="track('zombie')">Track zombie</button>
+                    <button class="hidden" id="trackZombie" onclick="track('zombie')">Track zombie</button>
                     <button id="trackTreasure" onclick="track('treasure')">Track treasure</button>
                 </div>
 

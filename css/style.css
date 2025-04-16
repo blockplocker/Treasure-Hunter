@@ -55,16 +55,11 @@ main {
     border-radius: 12px;
 }
 
-.game-Background * {
+.game-Background div {
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-}
-.new-Game {
-    bottom: 5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 .hidden {
     display: none;
@@ -80,8 +75,8 @@ main {
     top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
-    height: 30%;
+    width: 50%;
+    height: 50%;
 }
 .element1,
 .element2,
