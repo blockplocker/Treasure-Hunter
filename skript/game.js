@@ -1,13 +1,13 @@
 console.log("js file loaded"); // Debugging
 
-var backgrounds = [
+let backgrounds = [
     "images/Castle.png",
     "images/Cave.png",
     "images/Courtyard.png",
     "images/Ruins.png",
 ];
 
-var elements = [
+let elements = [
     "images/altar.png",
     "images/altar2.png",
     "images/altar3.png",
@@ -19,29 +19,29 @@ var elements = [
     "images/Statue.png",
 ];
 
-var chests = ["images/Chest1.png", "images/Chest2.png", "images/Chest3.png"];
+let chests = ["images/Chest1.png", "images/Chest2.png", "images/Chest3.png"];
 
-var zombies = [
+let zombies = [
     "images/Zombie.png",
     "images/Zombie2.png",
     "images/Zombie3.png",
 ];
 
-var playerX,
+let playerX,
     playerY,
-    zombieX,
-    zombieY,
     treasureX,
     treasureY,
+    zombieX,
+    zombieY,
     zombieImage,
     lives,
     score,
     compassTarget;
 
 // Generate the 5x5 game board
-var gameRows = 5;
-var gameCols = 5;
-var gameBoardImgs;
+const gameRows = 5;
+const gameCols = 5;
+let gameBoardImgs;
 
 startGame(); // Initialize the game
 
@@ -53,16 +53,24 @@ gameImage.addEventListener("click", () => {
 });
 
 /**
+ * Returns a random item from an array.
+ * @param {Array} arr - The array to pick a random item from.
+ * @returns {*} A random element from the given array.
+ */
+function randomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+/**
  * * Generates a 5x5 game board with random images for each room.
  * * Each room contains a background, three elements, a chest, and a zombie.
  */
 function generateGameBoard() {
     gameBoardImgs = [];
 
-    for (var row = 0; row < gameRows; row++) {
-        var boardRow = [];
-        for (var col = 0; col < gameCols; col++) {
-            var room = [
+    for (let row = 0; row < gameRows; row++) {
+        let boardRow = [];
+        for (let col = 0; col < gameCols; col++) {
+            let room = [
                 randomItem(backgrounds), // background
                 randomItem(elements), // element1
                 randomItem(elements), // element2
@@ -92,11 +100,11 @@ function generateGameBoard() {
 function startGame() {
     console.log("New Game started"); // Debugging
 
-    var newGame = document.getElementById("new-Game");
+    let newGame = document.getElementById("new-Game");
     newGame.classList.add("hidden"); // Hide new game button
 
-    var trackZombie = document.getElementById("trackZombie");
-    var trackTreasure = document.getElementById("trackTreasure");
+    let trackZombie = document.getElementById("trackZombie");
+    let trackTreasure = document.getElementById("trackTreasure");
 
     // enable buttons
     trackZombie.disabled = false;
@@ -107,20 +115,10 @@ function startGame() {
     playerX = 4; // Set initial player position
     playerY = 2; // Set initial player position
     zombieImage = randomItem(zombies); // Random zombie image
+    updateScore(0)
     updateHearts(lives); // Update the hearts display
     generateGameBoard(); // Generate the gameboard
-    checkDirections(playerX, playerY); // Check available directions
-    loadRoomImages(gameBoardImgs[playerX][playerY]); // Load the room images
-    drawGameboard(); // Initial draw of the gameboard
-    drawCompass(); // Initial draw of the compass
-}
-/**
- * Returns a random item from an array.
- * @param {Array} arr - The array to pick a random item from.
- * @returns {*} A random element from the given array.
- */
-function randomItem(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+    callGameFunctions(); // Call game functions to update the game state
 }
 /**
  * Changes the compass target to either "zombie" or "treasure".
@@ -130,11 +128,12 @@ function track(target) {
     // console.log("Tracking", target); // Debugging
     compassTarget = target; // Set the target for the compass
     drawCompass(); // Draw the compass with the new target
-    var trackZombie = document.getElementById("trackZombie");
-    var trackTreasure = document.getElementById("trackTreasure");
-    var compassDot = document.getElementById("compass-dot");
+    let trackZombie = document.getElementById("trackZombie");
+    let trackTreasure = document.getElementById("trackTreasure");
+    let compassDot = document.getElementById("compass-dot");
 
     zombieTurn(); // Call the zombie turn function
+    callGameFunctions(); // Call game functions to update the game state
 
     if (target == "zombie") {
         trackZombie.classList.add("hidden"); // Highlight the active button
@@ -178,16 +177,23 @@ function move(row, col) {
     playerX += row; // Update player's position
     playerY += col; // Update player's position
 
-    checkDirections(playerX, playerY); // Check available directions
+    callGameFunctions(); // Call game functions to update the game state
+}
+/**
+ * calls the game functions to check directions, load room images, and check for treasure.
+ * * It also checks if the player reaches the treasure and updates the score.
+ */
+function callGameFunctions() {
+checkDirections(playerX, playerY); // Check available directions
     loadRoomImages(gameBoardImgs[playerX][playerY]); // Load the room images
 
     // Check if the player reaches the treasure
-    var roomDescription = document.getElementById("room-description");
+    let roomDescription = document.getElementById("room-description");
     roomDescription.innerText = ""; // Clear previous description        
 
     if (playerX === treasureX && playerY === treasureY) {
         roomDescription.innerText = "You found the treasure!"; // Show treasure message
-        updateScore(); // Update the score
+        updateScore(10); // Update the score
         spawnNewTreasure(); // Spawn a new treasure
     }
     drawGameboard(); // Redraw the gameboard after each move
@@ -202,10 +208,10 @@ function move(row, col) {
  * */
 function checkDirections(x, y) {
     // console.log("Checking directions"); // Debugging
-    var north = document.getElementById("north");
-    var south = document.getElementById("south");
-    var west = document.getElementById("west");
-    var east = document.getElementById("east");
+    let north = document.getElementById("north");
+    let south = document.getElementById("south");
+    let west = document.getElementById("west");
+    let east = document.getElementById("east");
 
     // Remove disabled class and enable all directions first
     north.disabled = false;
@@ -240,12 +246,12 @@ function checkDirections(x, y) {
  * * @param {Array} arr - The array containing the images for the current room.
  * */
 function loadRoomImages(arr) {
-    var background = document.getElementById("game-Background");
-    var element1 = document.getElementById("element1");
-    var element2 = document.getElementById("element2");
-    var element3 = document.getElementById("element3");
-    var chest = document.getElementById("chest");
-    var zombie = document.getElementById("zombie");
+    let background = document.getElementById("game-Background");
+    let element1 = document.getElementById("element1");
+    let element2 = document.getElementById("element2");
+    let element3 = document.getElementById("element3");
+    let chest = document.getElementById("chest");
+    let zombie = document.getElementById("zombie");
 
     background.style.backgroundImage = `url('${arr[0]}')`;
     element1.style.backgroundImage = `url('${arr[1]}')`;
@@ -263,15 +269,15 @@ function loadRoomImages(arr) {
 function drawGameboard() {
     // console.log("Drawing gameboard"); // Debugging
 
-    var gameboard = document.getElementById("gameboard");
+    let gameboard = document.getElementById("gameboard");
     gameboard.innerHTML = ""; // Clear the previous gameboard
 
-    for (var i = 0; i < gameBoardImgs.length; i++) {
-        var row = document.createElement("tr");
+    for (let i = 0; i < gameBoardImgs.length; i++) {
+        let row = document.createElement("tr");
         row.className = "row";
 
-        for (var j = 0; j < gameBoardImgs[i].length; j++) {
-            var cell = document.createElement("td");
+        for (let j = 0; j < gameBoardImgs[i].length; j++) {
+            let cell = document.createElement("td");
             cell.className = "cell";
 
             if (i === playerX && j === playerY) {
@@ -294,7 +300,7 @@ function drawGameboard() {
 function drawCompass() {
     // console.log(playerX, playerY); // Debugging
     // console.log(targetX, targetY); // Debugging
-    var targetX, targetY;
+    let targetX, targetY;
     if (compassTarget == "zombie") {
         targetX = zombieX; // Target zombieX
         targetY = zombieY; // Target zombieY
@@ -302,7 +308,7 @@ function drawCompass() {
         targetX = treasureX; // Target treasureX
         targetY = treasureY; // Target treasureY
     }
-    var compassDot = document.getElementById("compass-dot");
+    let compassDot = document.getElementById("compass-dot");
 
     // Reset compass position
     compassDot.style.left = "0";
@@ -350,15 +356,15 @@ function checkGameOver() {
         imageArray = ["images/GameOver.png", "", "", "", "", zombieImage]; // Game over images
         loadRoomImages(imageArray); // Load game over images
 
-        var newGame = document.getElementById("new-Game");
+        let newGame = document.getElementById("new-Game");
         newGame.classList.remove("hidden"); // Show new game button
 
-        var north = document.getElementById("north");
-        var south = document.getElementById("south");
-        var west = document.getElementById("west");
-        var east = document.getElementById("east");
-        var trackZombie = document.getElementById("trackZombie");
-        var trackTreasure = document.getElementById("trackTreasure");
+        let north = document.getElementById("north");
+        let south = document.getElementById("south");
+        let west = document.getElementById("west");
+        let east = document.getElementById("east");
+        let trackZombie = document.getElementById("trackZombie");
+        let trackTreasure = document.getElementById("trackTreasure");
 
         // disable all buttons
         trackZombie.disabled = true;
@@ -369,15 +375,15 @@ function checkGameOver() {
         east.disabled = true;
     }
 }
-
 /**
  * * Updates the score and displays it in the score element.
  * * Increases the score by 10 points for each treasure collected.
  * * Displays the score in the score element.
+ * * @param {number} increment - The amount to increase the score by.
  */
-function updateScore() {
-    score += 10; // Increment score by 10
-    var scoreElement = document.getElementById("Score");
+function updateScore(increment) {
+    score += increment; // Increase score by 10 points
+    let scoreElement = document.getElementById("Score");
     scoreElement.textContent = "Score: " + score; // Update the score display
 }
 /**
@@ -409,9 +415,9 @@ function spawnNewTreasure() {
  * * updates the hearts display based on the player's lives.
  */
 function updateHearts() {
-    var heart1 = document.getElementById("heart1");
-    var heart2 = document.getElementById("heart2");
-    var heart3 = document.getElementById("heart3");
+    let heart1 = document.getElementById("heart1");
+    let heart2 = document.getElementById("heart2");
+    let heart3 = document.getElementById("heart3");
 
     heart1.classList.remove("empty"); // Remove empty heart class
     heart2.classList.remove("empty"); // Remove empty heart class
@@ -439,11 +445,11 @@ function zombieTurn() {
         return; // Skip the zombie's turn
     }
 
-    var rowDiff = playerX - zombieX; // Calculate row difference
-    var colDiff = playerY - zombieY; // Calculate column difference
+    let rowDiff = playerX - zombieX; // Calculate row difference
+    let colDiff = playerY - zombieY; // Calculate column difference
 
-    var rowMove = 0; // Initialize row move
-    var colMove = 0; // Initialize column move
+    let rowMove = 0; // Initialize row move
+    let colMove = 0; // Initialize column move
 
     // Prioritize row movement if possible, otherwise move in the column
     if (Math.abs(rowDiff) >= Math.abs(colDiff)) {
@@ -490,7 +496,7 @@ function zombieTurn() {
  * * Fetches a random quote from the API and shows it.
  */
 function showZombieQuote() {
-    var roomDescription = document.getElementById("room-description");
+    let roomDescription = document.getElementById("room-description");
     roomDescription.innerHTML = ""; // Clear previous description
     getQuote().then(
         (quote) => (roomDescription.innerText = "Zombie says: " + quote)
