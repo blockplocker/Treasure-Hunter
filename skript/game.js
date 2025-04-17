@@ -133,6 +133,9 @@ function track(target) {
     var trackZombie = document.getElementById("trackZombie");
     var trackTreasure = document.getElementById("trackTreasure");
     var compassDot = document.getElementById("compass-dot");
+
+    zombieTurn(); // Call the zombie turn function
+
     if (target == "zombie") {
         trackZombie.classList.add("hidden"); // Highlight the active button
         trackTreasure.classList.remove("hidden"); // Remove highlight from the other button
@@ -179,7 +182,11 @@ function move(row, col) {
     loadRoomImages(gameBoardImgs[playerX][playerY]); // Load the room images
 
     // Check if the player reaches the treasure
+    var roomDescription = document.getElementById("room-description");
+    roomDescription.innerText = ""; // Clear previous description        
+
     if (playerX === treasureX && playerY === treasureY) {
+        roomDescription.innerText = "You found the treasure!"; // Show treasure message
         updateScore(); // Update the score
         spawnNewTreasure(); // Spawn a new treasure
     }
