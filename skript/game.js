@@ -1,30 +1,30 @@
 console.log("js file loaded"); // Debugging
 
 var backgrounds = [
-    "/images/Castle.png",
-    "/images/Cave.png",
-    "/images/Courtyard.png",
-    "/images/Ruins.png",
+    "images/Castle.png",
+    "images/Cave.png",
+    "images/Courtyard.png",
+    "images/Ruins.png",
 ];
 
 var elements = [
-    "/images/altar.png",
-    "/images/altar2.png",
-    "/images/altar3.png",
-    "/images/altars.png",
-    "/images/altars2.png",
-    "/images/Book.png",
-    "/images/Crystals.png",
-    "/images/Potion.png",
-    "/images/Statue.png",
+    "images/altar.png",
+    "images/altar2.png",
+    "images/altar3.png",
+    "images/altars.png",
+    "images/altars2.png",
+    "images/Book.png",
+    "images/Crystals.png",
+    "images/Potion.png",
+    "images/Statue.png",
 ];
 
-var chests = ["/images/Chest1.png", "/images/Chest2.png", "/images/Chest3.png"];
+var chests = ["images/Chest1.png", "images/Chest2.png", "images/Chest3.png"];
 
 var zombies = [
-    "/images/Zombie.png",
-    "/images/Zombie2.png",
-    "/images/Zombie3.png",
+    "images/Zombie.png",
+    "images/Zombie2.png",
+    "images/Zombie3.png",
 ];
 
 var playerX,
@@ -340,7 +340,7 @@ function checkGameOver() {
     if (lives <= 0) {
         // Check if lives are 0
         // alert("Game Over!"); // Alert game over message
-        imageArray = ["/images/GameOver.png", "", "", "", "", zombieImage]; // Game over images
+        imageArray = ["images/GameOver.png", "", "", "", "", zombieImage]; // Game over images
         loadRoomImages(imageArray); // Load game over images
 
         var newGame = document.getElementById("new-Game");
